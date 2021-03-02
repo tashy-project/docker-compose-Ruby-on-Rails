@@ -5,7 +5,7 @@
 ## プロジェクトを定義します。
 アプリのビルドに必要なファイルを設定することから始めます。アプリは依存関係を含むDockerコンテナ内で実行されます。依存関係の定義は、Dockerfileというファイルを使って行います。そもそもDockerfileは以下のように構成されています。
 
-```
+```Docker
 FROM ruby:2.5
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 WORKDIR /myapp
@@ -28,7 +28,7 @@ CMD ["rails", "server", "-b", "0.0.0.0"]
 
 次に、RailsをロードするだけのブートストラップGemfileを作成します。これはrails newで一瞬で上書きされます。
 
-```
+```Gemfile
 source 'https://rubygems.org'
 gem 'rails', '~>5'
 ```
@@ -54,7 +54,7 @@ exec "$@"
 
 最後に、docker-compose.ymlでマジックが起こります。このファイルには、アプリを構成するサービス（データベースとWebアプリ）、それぞれのDockerイメージを取得する方法（データベースはあらかじめ作成されたPostgreSQLイメージ上で実行され、Webアプリはカレントディレクトリからビルドされます）、それらを一緒にリンクしてWebアプリのポートを公開するために必要な設定が記述されています。
 
-```
+```Docker
 version: "3.9"
 services:
   db:
